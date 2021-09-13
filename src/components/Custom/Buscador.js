@@ -104,22 +104,18 @@ export default function Buscador({ place, checked }) {
                   </Grid>
                   <Grid item xs={4}>
                     <FormControl className={classes.formControl}>
-                      {/* <InputLabel
-                        className={classes.labelRoot + " " + labelClasses}
-                        htmlFor={id}
-                        {...labelProps}
-                      >
-                        {labelText}
-                      </InputLabel> */}
+                      <InputLabel id="demo-simple-select-label">
+                        Serivio
+                      </InputLabel>
                       <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         value={state.age}
                         onChange={handleChange}
                       >
-                        <MenuItem value={10}>Personal Training</MenuItem>
-                        <MenuItem value={20}>Ensenhanza inglés</MenuItem>
-                        <MenuItem value={30}>Manicurista</MenuItem>
+                        <MenuItem value={1}>Personal Training</MenuItem>
+                        <MenuItem value={2}>Ensenhanza inglés</MenuItem>
+                        <MenuItem value={3}>Manicurista</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
