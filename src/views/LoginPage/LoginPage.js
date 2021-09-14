@@ -19,10 +19,12 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import LoginService from "../../services/login.service";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg7.jpg";
+import "../../components/styles/GlobalCustom.css";
 
 const useStyles = makeStyles(styles);
 
@@ -48,19 +50,18 @@ export default function LoginPage(props) {
     try {
       await LoginService.login(state.email, state.password);
       setState({ loading: false });
-      this.props.history.push("/dashboard");
+      props.history.push("/dashboard");
     } catch (error) {
       setState({ loading: false, error: error });
     }
   };
 
   const handleChange = (e) => {
-    setState((prevProps) => ({
-      ...prevProps,
-      [e.target.name]: e.target.value,
-    }));
-    console.log("name", e.target.name);
-    console.log(state);
+    const newState = { ...state };
+    console.log("id:" + e.target.id + " valor: " + e.target.value);
+    newState[e.target.id] = e.target.value;
+    setState(newState);
+    console.log(newState);
   };
 
   return (
@@ -81,6 +82,19 @@ export default function LoginPage(props) {
         }}
       >
         <div className={classes.container}>
+          <SnackbarContent
+            message={
+              <span>
+                <b>DANGER ALERT:</b> You{"'"}ve got some friends nearby, stop
+                looking at your phone and find them...
+              </span>
+            }
+            close
+            color="danger"
+            icon="info_outline"
+            mb={2}
+            className="danger-outlined"
+          />
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
@@ -111,6 +125,7 @@ export default function LoginPage(props) {
                       labelText="Contraseña"
                       id="password"
                       name="password"
+                      value={state.password}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -126,7 +141,6 @@ export default function LoginPage(props) {
                         autoComplete: "off",
                         onChange: (event) => handleChange(event),
                       }}
-                      value={state.password}
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
