@@ -24,8 +24,9 @@ import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
-import "../styles/Buscador.css";
+
 import CustomInput from "../CustomInput/CustomInput.js";
+import "../styles/Buscador.css";
 
 const useStyles = makeStyles({
   root: {
@@ -66,8 +67,8 @@ export default function Buscador({ place, checked }) {
   const classes = useStyles();
 
   const [state, setState] = React.useState({
-    age: "23",
-    name: "hai",
+    ciudad: "",
+    servicio: "",
   });
 
   const handleChange = (event) => {
@@ -87,35 +88,37 @@ export default function Buscador({ place, checked }) {
                 <Grid container spacing={1}>
                   <Grid item xs={4}>
                     <FormControl className={classes.formControl}>
-                      <InputLabel id="demo-simple-select-label">
-                        Ciudad
-                      </InputLabel>
                       <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={state.age}
+                        value={state.ciudad}
                         onChange={handleChange}
+                        displayEmpty
+                        name="ciudad"
+                        className={classes.selectEmpty}
                       >
+                        <MenuItem value="">
+                          <em>Ciudad</em>
+                        </MenuItem>
                         <MenuItem value={10}>Villa Elisa</MenuItem>
-                        <MenuItem value={20}>Asunción</MenuItem>
-                        <MenuItem value={30}>San Lorenzo</MenuItem>
+                        <MenuItem value={20}>Lambaré</MenuItem>
+                        <MenuItem value={30}>Asunción</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
                   <Grid item xs={4}>
                     <FormControl className={classes.formControl}>
-                      <InputLabel id="demo-simple-select-label">
-                        Serivio
-                      </InputLabel>
                       <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={state.age}
+                        value={state.servicio}
                         onChange={handleChange}
+                        displayEmpty
+                        name="servicio"
+                        className={classes.selectEmpty}
                       >
-                        <MenuItem value={1}>Personal Training</MenuItem>
-                        <MenuItem value={2}>Ensenhanza inglés</MenuItem>
-                        <MenuItem value={3}>Manicurista</MenuItem>
+                        <MenuItem value="">
+                          <em>Servicio</em>
+                        </MenuItem>
+                        <MenuItem value={10}>Personal Training</MenuItem>
+                        <MenuItem value={20}>Enseñanza de inglés</MenuItem>
+                        <MenuItem value={30}>Peluquería</MenuItem>
                       </Select>
                     </FormControl>
                   </Grid>
@@ -132,13 +135,6 @@ export default function Buscador({ place, checked }) {
                       </Button>
                     </Box>
                   </Grid>
-                  <CustomInput
-                    labelText="With floating label"
-                    id="float"
-                    formControlProps={{
-                      fullWidth: true,
-                    }}
-                  />
                 </Grid>
               </form>
             </div>
