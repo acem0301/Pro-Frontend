@@ -10,7 +10,9 @@ class AuthService {
 
   register = async (nombre, apellido, email, password) => {
     return http.post("/registro", {
-      username: email,
+      nombre: nombre,
+      apellido: apellido,
+      email: email,
       password: password,
     });
   };
