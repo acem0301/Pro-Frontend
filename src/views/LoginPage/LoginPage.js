@@ -82,19 +82,22 @@ export default function LoginPage(props) {
         }}
       >
         <div className={classes.container}>
-          <SnackbarContent
-            message={
-              <span>
-                <b>DANGER ALERT:</b> You{"'"}ve got some friends nearby, stop
-                looking at your phone and find them...
-              </span>
-            }
-            close
-            color="danger"
-            icon="info_outline"
-            mb={2}
-            className="danger-outlined"
-          />
+          {state.error && (
+            <SnackbarContent
+              message={
+                <span>
+                  <b>DANGER ALERT:</b> You{"'"}ve got some friends nearby, stop
+                  looking at your phone and find them...
+                </span>
+              }
+              close
+              color="danger"
+              icon="info_outline"
+              mb={2}
+              className="danger-outlined"
+            />
+          )}
+
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
