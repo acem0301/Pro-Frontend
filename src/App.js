@@ -12,6 +12,7 @@ export default function App() {
     <BrowserRouter>
       <Switch>
         <Route exact path="/login" component={LoginPage}></Route>
+        <Route exact path="/registro" component={RegisterPage}></Route>
         <Route exact path="/" component={Components}></Route>
         <Route exact path="/dashboard" component={Dashboard}></Route>
       </Switch>
