@@ -86,9 +86,13 @@ export default function Buscador({ place, checked }) {
     setState({ loading: true, error: null });
 
     try {
-      await BuscadorService.search(state.ciudad, state.servicio);
+      const data = await BuscadorService.search(state.ciudad, state.servicio);
       setState({ loading: false });
       props.history.push("/listado");
+      this.props.history.push({
+        pathname: "/template",
+        state: { data: data },
+      });
     } catch (error) {
       setState({ loading: false, error: error });
     }
