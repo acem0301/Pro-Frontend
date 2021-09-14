@@ -32,14 +32,9 @@ export default function HeaderLinks(props) {
         </Link>
       </ListItem>
       <ListItem className={classes.listItem}>
-        <Button
-          href="https://twitter.com/CreativeTim?ref=creativetim"
-          target="_blank"
-          color="transparent"
-          className={classes.navLink}
-        >
+        <Link to="/registro" color="transparent" className={classes.navLink}>
           Registrarse
-        </Button>
+        </Link>
       </ListItem>
     </List>
   );

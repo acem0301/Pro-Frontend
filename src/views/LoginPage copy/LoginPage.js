@@ -18,7 +18,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
-import AuthService from "../../services/auth.service";
+import LoginService from "../../services/auth.service";
 import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
@@ -48,7 +48,7 @@ export default function LoginPage(props) {
     setState({ loading: true, error: null });
 
     try {
-      await AuthService.login(state.email, state.password);
+      await LoginService.login(state.email, state.password);
       setState({ loading: false });
       props.history.push("/dashboard");
     } catch (error) {

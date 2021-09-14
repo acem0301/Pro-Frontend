@@ -28,10 +28,12 @@ import "../../components/styles/GlobalCustom.css";
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage(props) {
+export default function RegisterPage(props) {
   const [state, setState] = React.useState({
     loading: true,
     error: null,
+    nombre: "",
+    apellido: "",
     email: "",
     password: "",
   });
@@ -48,20 +50,24 @@ export default function LoginPage(props) {
     setState({ loading: true, error: null });
 
     try {
-      await AuthService.login(state.email, state.password);
+      await AuthService.register(
+        state.nombre,
+        state.apellido,
+        state.email,
+        state.password
+      );
       setState({ loading: false });
       props.history.push("/dashboard");
     } catch (error) {
+      console.log(error);
       setState({ loading: false, error: error });
     }
   };
 
   const handleChange = (e) => {
     const newState = { ...state };
-    console.log("id:" + e.target.id + " valor: " + e.target.value);
     newState[e.target.id] = e.target.value;
     setState(newState);
-    console.log(newState);
   };
 
   return (
@@ -86,8 +92,8 @@ export default function LoginPage(props) {
             <SnackbarContent
               message={
                 <span>
-                  <b>DANGER ALERT:</b> You{"'"}ve got some friends nearby, stop
-                  looking at your phone and find them...
+                  <b>Error:</b> Ocurrió un error durante el registro. Por favor,
+                  intente más tarde.
                 </span>
               }
               close
@@ -103,9 +109,46 @@ export default function LoginPage(props) {
               <Card className={classes[cardAnimaton]}>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Iniciar sesión</h4>
+                    <h4>Registrarse</h4>
                   </CardHeader>
                   <CardBody>
+                    <CustomInput
+                      labelText="Nombre..."
+                      id="nombre"
+                      name="nombre"
+                      value={state.nombre}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        type: "text",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        ),
+                        onChange: (event) => handleChange(event),
+                      }}
+                    />
+                    <CustomInput
+                      labelText="Apellido..."
+                      id="apellido"
+                      name="apellido"
+                      value={state.apellido}
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        type: "text",
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <People className={classes.inputIconsColor} />
+                          </InputAdornment>
+                        ),
+                        onChange: (event) => handleChange(event),
+                      }}
+                    />
+
                     <CustomInput
                       labelText="Email..."
                       id="email"
@@ -148,7 +191,7 @@ export default function LoginPage(props) {
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button simple color="primary" size="lg" type="submit">
-                      Iniciar sesión
+                      Continuar
                     </Button>
                   </CardFooter>
                 </form>
