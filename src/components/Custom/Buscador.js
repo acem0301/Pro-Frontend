@@ -26,7 +26,9 @@ import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 
 import CustomInput from "../CustomInput/CustomInput.js";
+import BuscadorService from "../../services/buscador.service";
 import "../styles/Buscador.css";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 const useStyles = makeStyles({
   root: {
@@ -78,69 +80,103 @@ export default function Buscador({ place, checked }) {
       [name]: event.target.value,
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setState({ loading: true, error: null });
+
+    try {
+      await BuscadorService.search(state.ciudad, state.servicio);
+      setState({ loading: false });
+      props.history.push("/listado");
+    } catch (error) {
+      setState({ loading: false, error: error });
+    }
+  };
   return (
-    <Collapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
-      <Card className={classes.root}>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <div className={classes.container}>
-              <form className={classes.form} noValidate>
-                <Grid container spacing={1}>
-                  <Grid item xs={4}>
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        value={state.ciudad}
-                        onChange={handleChange}
-                        displayEmpty
-                        name="ciudad"
-                        className={classes.selectEmpty}
-                      >
-                        <MenuItem value="">
-                          <em>Ciudad</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Villa Elisa</MenuItem>
-                        <MenuItem value={20}>Lambaré</MenuItem>
-                        <MenuItem value={30}>Asunción</MenuItem>
-                      </Select>
-                    </FormControl>
+    <div>
+      {state.error && (
+        <SnackbarContent
+          message={
+            <span>
+              <b>ERROR:</b> Ha ocurrido un error al realizar la búsqueda. Por
+              favor, intente más tarde
+            </span>
+          }
+          close
+          color="danger"
+          icon="info_outline"
+          mb={2}
+          className="danger-outlined"
+        />
+      )}
+      <Collapse in={checked} {...(checked ? { timeout: 1000 } : {})}>
+        <Card className={classes.root}>
+          <div className={classes.details}>
+            <CardContent className={classes.content}>
+              <div className={classes.container}>
+                <form
+                  className={classes.form}
+                  noValidate
+                  onSubmit={handleSubmit}
+                >
+                  <Grid container spacing={1}>
+                    <Grid item xs={4}>
+                      <FormControl className={classes.formControl}>
+                        <Select
+                          value={state.ciudad}
+                          onChange={handleChange}
+                          displayEmpty
+                          name="ciudad"
+                          className={classes.selectEmpty}
+                        >
+                          <MenuItem value="">
+                            <em>Ciudad</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Villa Elisa</MenuItem>
+                          <MenuItem value={20}>Lambaré</MenuItem>
+                          <MenuItem value={30}>Asunción</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FormControl className={classes.formControl}>
+                        <Select
+                          value={state.servicio}
+                          onChange={handleChange}
+                          displayEmpty
+                          name="servicio"
+                          className={classes.selectEmpty}
+                        >
+                          <MenuItem value="">
+                            <em>Servicio</em>
+                          </MenuItem>
+                          <MenuItem value={10}>Personal Training</MenuItem>
+                          <MenuItem value={20}>Enseñanza de inglés</MenuItem>
+                          <MenuItem value={30}>Peluquería</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Box>
+                        <Button
+                          type="submit"
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          className={classes.submit}
+                        >
+                          Buscar
+                        </Button>
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={4}>
-                    <FormControl className={classes.formControl}>
-                      <Select
-                        value={state.servicio}
-                        onChange={handleChange}
-                        displayEmpty
-                        name="servicio"
-                        className={classes.selectEmpty}
-                      >
-                        <MenuItem value="">
-                          <em>Servicio</em>
-                        </MenuItem>
-                        <MenuItem value={10}>Personal Training</MenuItem>
-                        <MenuItem value={20}>Enseñanza de inglés</MenuItem>
-                        <MenuItem value={30}>Peluquería</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Box>
-                      <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                      >
-                        Buscar
-                      </Button>
-                    </Box>
-                  </Grid>
-                </Grid>
-              </form>
-            </div>
-          </CardContent>
-        </div>
-      </Card>
-    </Collapse>
+                </form>
+              </div>
+            </CardContent>
+          </div>
+        </Card>
+      </Collapse>
+    </div>
   );
 }

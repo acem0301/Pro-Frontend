@@ -1,8 +1,11 @@
 import http from "../http-common";
 
 class BuscadorService {
-  search = async () => {
-    return http.get("/buscar");
+  search = async (ciudad, servicio) => {
+    return http.post("/busqueda", {
+      ciudad: ciudad,
+      servicio: servicio,
+    });
   };
 }
 

@@ -18,26 +18,58 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import LoginService from "../../services/login.service";
+import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
 
 import image from "assets/img/bg7.jpg";
+import "../../components/styles/GlobalCustom.css";
 
 const useStyles = makeStyles(styles);
 
 export default function LoginPage(props) {
+  const [state, setState] = React.useState({
+    loading: true,
+    error: null,
+    email: "",
+    password: "",
+  });
+
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
   setTimeout(function () {
     setCardAnimation("");
   }, 700);
   const classes = useStyles();
   const { ...rest } = props;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setState({ loading: true, error: null });
+
+    try {
+      await LoginService.login(state.email, state.password);
+      setState({ loading: false });
+      props.history.push("/dashboard");
+    } catch (error) {
+      setState({ loading: false, error: error });
+    }
+  };
+
+  const handleChange = (e) => {
+    const newState = { ...state };
+    console.log("id:" + e.target.id + " valor: " + e.target.value);
+    newState[e.target.id] = e.target.value;
+    setState(newState);
+    console.log(newState);
+  };
+
   return (
     <div>
       <Header
         absolute
         color="transparent"
-        brand="Material Kit React"
+        brand="Pro"
         rightLinks={<HeaderLinks />}
         {...rest}
       />
@@ -50,62 +82,35 @@ export default function LoginPage(props) {
         }}
       >
         <div className={classes.container}>
+          {state.error && (
+            <SnackbarContent
+              message={
+                <span>
+                  <b>DANGER ALERT:</b> You{"'"}ve got some friends nearby, stop
+                  looking at your phone and find them...
+                </span>
+              }
+              close
+              color="danger"
+              icon="info_outline"
+              mb={2}
+              className="danger-outlined"
+            />
+          )}
+
           <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
               <Card className={classes[cardAnimaton]}>
-                <form className={classes.form}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                   <CardHeader color="primary" className={classes.cardHeader}>
-                    <h4>Login</h4>
-                    <div className={classes.socialLine}>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className={"fab fa-twitter"} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className={"fab fa-facebook"} />
-                      </Button>
-                      <Button
-                        justIcon
-                        href="#pablo"
-                        target="_blank"
-                        color="transparent"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        <i className={"fab fa-google-plus-g"} />
-                      </Button>
-                    </div>
+                    <h4>Iniciar sesión</h4>
                   </CardHeader>
-                  <p className={classes.divider}>Or Be Classical</p>
                   <CardBody>
-                    <CustomInput
-                      labelText="First Name..."
-                      id="first"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        type: "text",
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <People className={classes.inputIconsColor} />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
                     <CustomInput
                       labelText="Email..."
                       id="email"
+                      name="email"
+                      value={state.email}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -116,11 +121,14 @@ export default function LoginPage(props) {
                             <Email className={classes.inputIconsColor} />
                           </InputAdornment>
                         ),
+                        onChange: (event) => handleChange(event),
                       }}
                     />
                     <CustomInput
-                      labelText="Password"
-                      id="pass"
+                      labelText="Contraseña"
+                      id="password"
+                      name="password"
+                      value={state.password}
                       formControlProps={{
                         fullWidth: true,
                       }}
@@ -134,12 +142,13 @@ export default function LoginPage(props) {
                           </InputAdornment>
                         ),
                         autoComplete: "off",
+                        onChange: (event) => handleChange(event),
                       }}
                     />
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
-                    <Button simple color="primary" size="lg">
-                      Get started
+                    <Button simple color="primary" size="lg" type="submit">
+                      Iniciar sesión
                     </Button>
                   </CardFooter>
                 </form>
@@ -147,7 +156,7 @@ export default function LoginPage(props) {
             </GridItem>
           </GridContainer>
         </div>
-        <Footer whiteFont />
+        {/* <Footer whiteFont /> */}
       </div>
     </div>
   );

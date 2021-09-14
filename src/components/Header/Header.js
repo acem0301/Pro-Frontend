@@ -11,8 +11,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
+import HomeHeader from "../Custom/HomeHeader";
 import { Link as Scroll } from "react-scroll";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import { Link } from "react-router-dom";
+
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 // core components
@@ -37,6 +39,7 @@ const searchStyles = makeStyles((theme) => ({
   appbarTitle: {
     flexGrow: "1",
     fontSize: "1.5rem",
+    textDecoration: "none",
   },
   icon: {
     color: "#fff",
@@ -105,14 +108,11 @@ export default function Header(props) {
     [classes.fixed]: fixed,
   });
   const brandComponent = (
-    <Button className={searchClasses.appbarTitle}>
+    <Link className={searchClasses.appbarTitle} to="/">
       <span className={searchClasses.colorText}>{brand}</span>.
-    </Button>
+    </Link>
   );
-  const [checked, setChecked] = useState(false);
-  useEffect(() => {
-    setChecked(true);
-  }, []);
+
   return (
     <div id="header">
       <AppBar className={appBarClasses}>
@@ -157,25 +157,7 @@ export default function Header(props) {
           </Drawer>
         </Hidden>
       </AppBar>
-      <Collapse
-        in={checked}
-        {...(checked ? { timeout: 1000 } : {})}
-        collapsedHeight={50}
-      >
-        <div className={searchClasses.container}>
-          <h1 className={searchClasses.title}>
-            Los mejores{" "}
-            <span className={searchClasses.colorText}>profesionales</span>
-            <br />
-            en un solo lugar<span className={searchClasses.colorText}>...</span>
-          </h1>
-          <Scroll to="place-to-visit" smooth={true}>
-            <IconButton>
-              <ExpandMoreIcon className={searchClasses.goDown} />
-            </IconButton>
-          </Scroll>
-        </div>
-      </Collapse>
+      {props.showHomeHeader && <HomeHeader />}
     </div>
   );
 }
