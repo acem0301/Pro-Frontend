@@ -29,7 +29,8 @@ import SectionExamples from "./Sections/SectionExamples.js";
 import SectionDownload from "./Sections/SectionDownload.js";
 
 import styles from "assets/jss/material-kit-react/views/components.js";
-
+import PlaceToVisit from "../../components/Custom/PlaceToVisit.js";
+import "../../components/styles/Buscador.css";
 const useStyles = makeStyles(styles);
 
 export default function Components(props) {
@@ -38,7 +39,7 @@ export default function Components(props) {
   return (
     <div>
       <Header
-        brand="Material Kit React"
+        brand="Pro"
         rightLinks={<HeaderLinks />}
         fixed
         color="transparent"
@@ -48,14 +49,14 @@ export default function Components(props) {
         }}
         {...rest}
       />
-      <Parallax image={require("assets/img/bg4.jpg").default}>
+      <Parallax image={require("../../assets/img/teacher.jpg").default}>
         <div className={classes.container}>
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1 className={classes.title}>Material Kit React.</h1>
+                <h1 className={classes.title}>Pro.</h1>
                 <h3 className={classes.subtitle}>
-                  A Badass Material-UI Kit based on Material Design.
+                  Los mejores profesionales en un solo lugar
                 </h3>
               </div>
             </GridItem>
@@ -64,8 +65,8 @@ export default function Components(props) {
       </Parallax>
 
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <SectionBasics />
-        <SectionNavbars />
+        <PlaceToVisit />
+        {/* <SectionNavbars />
         <SectionTabs />
         <SectionPills />
         <SectionNotifications />
@@ -82,7 +83,7 @@ export default function Components(props) {
           </Link>
         </GridItem>
         <SectionExamples />
-        <SectionDownload />
+        <SectionDownload /> */}
       </div>
       <Footer />
     </div>
