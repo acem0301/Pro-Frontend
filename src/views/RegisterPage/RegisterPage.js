@@ -22,6 +22,8 @@ import AuthService from "../../services/auth.service";
 import SnackbarContent from "components/Snackbar/SnackbarContent.js";
 
 import styles from "assets/jss/material-kit-react/views/loginPage.js";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Switch from "@material-ui/core/Switch";
 
 import image from "assets/img/bg7.jpg";
 import "../../components/styles/GlobalCustom.css";
@@ -29,6 +31,7 @@ import "../../components/styles/GlobalCustom.css";
 const useStyles = makeStyles(styles);
 
 export default function RegisterPage(props) {
+  const [checkedA, setCheckedA] = React.useState(false);
   const [state, setState] = React.useState({
     loading: true,
     error: null,
@@ -54,7 +57,8 @@ export default function RegisterPage(props) {
         state.nombre,
         state.apellido,
         state.email,
-        state.password
+        state.password,
+        checkedA
       );
       setState({ loading: false });
       props.history.push("/dashboard");
@@ -188,6 +192,29 @@ export default function RegisterPage(props) {
                         onChange: (event) => handleChange(event),
                       }}
                     />
+                    <div className="customSwitch">
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={checkedA}
+                            onChange={(event) =>
+                              setCheckedA(event.target.checked)
+                            }
+                            value="checkedA"
+                            classes={{
+                              switchBase: classes.switchBase,
+                              checked: classes.switchChecked,
+                              thumb: classes.switchIcon,
+                              track: classes.switchBar,
+                            }}
+                          />
+                        }
+                        classes={{
+                          label: classes.label,
+                        }}
+                        label="Soy profesional"
+                      />
+                    </div>
                   </CardBody>
                   <CardFooter className={classes.cardFooter}>
                     <Button simple color="primary" size="lg" type="submit">

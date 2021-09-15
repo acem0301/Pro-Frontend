@@ -8,12 +8,13 @@ class AuthService {
     });
   };
 
-  register = async (nombre, apellido, email, password) => {
+  register = async (nombre, apellido, email, password, esProfesional) => {
     return http.post("/registro", {
       nombre: nombre,
       apellido: apellido,
       email: email,
       password: password,
+      esProfesional: esProfesional,
     });
   };
 }
